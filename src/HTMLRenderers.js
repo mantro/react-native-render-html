@@ -64,7 +64,7 @@ export function ul (htmlAttribs, children, convertedCSSStyles, passProps = {}) {
         passProps,
         styleSet: 'VIEW'
     });
-    const { allowFontScaling, rawChildren, nodeIndex, key, baseFontStyle, listsPrefixesRenderers } = passProps;
+    const { allowFontScaling, maxFontSizeMultiplier, rawChildren, nodeIndex, key, baseFontStyle, listsPrefixesRenderers } = passProps;
     const baseFontSize = baseFontStyle.fontSize || 14;
 
     children = children && children.map((child, index) => {
@@ -94,7 +94,7 @@ export function ul (htmlAttribs, children, convertedCSSStyles, passProps = {}) {
                 );
             } else if (rawChild.parentTag === 'ol' && rawChild.tagName === 'li') {
                 prefix = listsPrefixesRenderers && listsPrefixesRenderers.ol ? listsPrefixesRenderers.ol(...rendererArgs) : (
-                    <Text allowFontScaling={allowFontScaling} style={{ marginRight: 5, fontSize: baseFontSize }}>{ index + 1 })</Text>
+                    <Text allowFontScaling={allowFontScaling} maxFontSizeMultiplier={maxFontSizeMultiplier} style={{ marginRight: 5, fontSize: baseFontSize }}>{ index + 1 })</Text>
                 );
             }
         }
@@ -158,6 +158,7 @@ export function br (htlmAttribs, children, convertedCSSStyles, passProps) {
     return (
         <Text
             allowFontScaling={passProps.allowFontScaling}
+            maxFontSizeMultiplier={passProps.maxFontSizeMultiplier}
             style={{ height: 1.2 * passProps.emSize, flex: 1 }}
             key={passProps.key}
         >
@@ -166,8 +167,8 @@ export function br (htlmAttribs, children, convertedCSSStyles, passProps) {
     );
 }
 
-export function textwrapper (htmlAttribs, children, convertedCSSStyles, { allowFontScaling, key }) {
+export function textwrapper (htmlAttribs, children, convertedCSSStyles, { allowFontScaling, maxFontSizeMultiplier, key }) {
     return (
-        <Text allowFontScaling={allowFontScaling} key={key} style={convertedCSSStyles}>{ children }</Text>
+        <Text allowFontScaling={allowFontScaling} maxFontSizeMultiplier={maxFontSizeMultiplier} key={key} style={convertedCSSStyles}>{ children }</Text>
     );
 }

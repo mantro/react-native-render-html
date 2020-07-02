@@ -48,7 +48,8 @@ export default class HTML extends PureComponent {
         baseFontStyle: PropTypes.object.isRequired,
         textSelectable: PropTypes.bool,
         renderersProps: PropTypes.object,
-        allowFontScaling: PropTypes.bool
+        allowFontScaling: PropTypes.bool,
+        maxFontSizeMultiplier: PropTypes.number
     }
 
     static defaultProps = {
@@ -65,7 +66,8 @@ export default class HTML extends PureComponent {
         tagsStyles: {},
         classesStyles: {},
         textSelectable: false,
-        allowFontScaling: true
+        allowFontScaling: true,
+        maxFontSizeMultiplier: 1.5
     }
 
     constructor (props) {
@@ -389,6 +391,7 @@ export default class HTML extends PureComponent {
     renderRNElements (RNElements, parentWrapper = 'root', parentIndex = 0, props = this.props) {
         const {
             allowFontScaling,
+            maxFontSizeMultiplier,
             allowedStyles,
             baseFontStyle,
             classesStyles,
@@ -447,6 +450,7 @@ export default class HTML extends PureComponent {
             const textElement = data ?
                 <Text
                   allowFontScaling={allowFontScaling}
+                  maxFontSizeMultiplier={maxFontSizeMultiplier}
                   style={computeTextStyles(
                       element,
                       {
@@ -475,6 +479,7 @@ export default class HTML extends PureComponent {
             const renderersProps = {};
             if (Wrapper === Text) {
                 renderersProps.allowFontScaling = allowFontScaling;
+                renderersProps.maxFontSizeMultiplier= maxFontSizeMultiplier;
                 renderersProps.selectable = textSelectable;
             }
             return (
@@ -487,7 +492,7 @@ export default class HTML extends PureComponent {
     }
 
     render () {
-        const { allowFontScaling, customWrapper, remoteLoadingView, remoteErrorView } = this.props;
+        const { allowFontScaling, maxFontSizeMultiplier, customWrapper, remoteLoadingView, remoteErrorView } = this.props;
         const { RNNodes, loadingRemoteURL, errorLoadingRemoteURL } = this.state;
         if (!RNNodes && !loadingRemoteURL && !errorLoadingRemoteURL) {
             return null;
@@ -504,7 +509,7 @@ export default class HTML extends PureComponent {
                 remoteErrorView(this.props, this.state) :
                 (
                     <View style={{ flex: 1, alignItems: 'center' }}>
-                        <Text allowFontScaling={allowFontScaling} style={{ fontStyle: 'italic', fontSize: 16 }}>Could not load { this.props.uri }</Text>
+                        <Text allowFontScaling={allowFontScaling} maxFontSizeMultiplier={maxFontSizeMultiplier} style={{ fontStyle: 'italic', fontSize: 16 }}>Could not load { this.props.uri }</Text>
                     </View>
                 );
         }
